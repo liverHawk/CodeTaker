@@ -3,6 +3,7 @@
   <p>Find me in app/views/home/index.html.erb</p>
 
   <h1>Hello, World!</h1>
-    <%= render 'shared/links' %>
+  <%= render 'shared/links' %>
 
+  <%= button_to "Redeem invite id", invite_ids_path, class: "rounded bg-gray-900 px-3 py-2 text-white", data: { turbo: false } %>
 </div>

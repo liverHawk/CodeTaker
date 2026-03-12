@@ -75,3 +75,5 @@ gem "omniauth-rails_csrf_protection", "~> 2.0"
 gem "irb", "~> 1.17"
 
 gem "reline", "~> 0.6.3"
+
+gem "bcrypt", "~> 3.1"

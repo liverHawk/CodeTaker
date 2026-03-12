@@ -1,0 +1,13 @@
+<h1>Invite ID</h1>
+
+<% if @error %>
+  <div class="alert alert-error">
+    <%= @error %>
+  </div>
+<% end %>
+
+<% if @invite_id %>
+  <p>Your invite ID is:</p>
+  <p><b><%= @invite_id %></b></p>
+  <p>Click Pricing and Upgrade. On the right side, you will see a button to "promo code". Click it and paste your invite ID.</p>
+<% end %>
