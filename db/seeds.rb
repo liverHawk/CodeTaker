@@ -1,29 +1,18 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# db/seeds.rb
+require "csv"
 
-# Demo inventory for one-time invite IDs.
-# Keeps a small pool of unassigned, unused codes for local development/demo.
-if defined?(InviteId)
-  target_pool_size = 20
-  current_pool_size = InviteId.unused.where(user_id: nil).count
+# InviteId を CSV から読み込み
+csv_path = Rails.root.join("db", "seeds", "invite_ids.csv")
+if defined?(InviteId) && File.exist?(csv_path)
+  CSV.foreach(csv_path, headers: true) do |row|
+    code = row["invite_id"].to_s.strip
+    next if code.blank?
 
-  (target_pool_size - current_pool_size).times do
-    code = nil
-    10.times do
-      candidate = SecureRandom.alphanumeric(8)
-      next if InviteId.exists?(invite_id: candidate)
-      code = candidate
-      break
+    InviteId.find_or_create_by!(invite_id: code) do |invite|
+      invite.used = false
+      invite.user_id = nil
     end
-
-    next unless code
-    InviteId.create!(invite_id: code, used: false, user_id: nil)
   end
 end
+
+# 既存のデモ生成は必要なら残す
