@@ -1,0 +1,2 @@
+module Users::GithubCallbacksHelper
+end
