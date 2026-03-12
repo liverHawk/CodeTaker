@@ -6,6 +6,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :trackable,
          :omniauthable, omniauth_providers: %i[github]
 
+  validates :url, format: { with: /\Ahttps?:\/\/\S+\z/, message: "must be a valid URL (http/https)" }, allow_blank: true
+
   def self.from_omniauth(auth)
     provider = auth.try(:provider) || auth[:provider] || auth["provider"]
     uid = auth.try(:uid) || auth[:uid] || auth["uid"]

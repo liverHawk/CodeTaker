@@ -4,7 +4,7 @@ Rails.application.routes.draw do
              skip: %i[registrations passwords],
              controllers: {
                omniauth_callbacks: "users/github_callbacks",
-               sessions: "users/sessions",
+               sessions: "users/sessions"
              }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -27,8 +27,11 @@ Rails.application.routes.draw do
   get "/profile", to: "profiles#edit", as: :profile
   patch "/profile", to: "profiles#update"
 
+  get "/profile/url", to: "profile_urls#edit", as: :profile_url
+  patch "/profile/url", to: "profile_urls#update"
+
   namespace :admin do
-    resources :users, only: [:index] do
+    resources :users, only: %i[index] do
       member do
         patch :confirm
       end

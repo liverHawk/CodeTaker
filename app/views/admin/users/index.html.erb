@@ -10,6 +10,7 @@
         <tr>
           <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-600">Name</th>
           <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-600">Email</th>
+          <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-600">URL</th>
           <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-600">Confirmed</th>
           <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-600">Created</th>
           <th scope="col" class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-gray-600">Action</th>
@@ -20,6 +21,17 @@
           <tr class="hover:bg-gray-50">
             <td class="px-4 py-3 text-sm text-gray-900"><%= user.name.presence || "-" %></td>
             <td class="px-4 py-3 text-sm text-gray-700"><%= user.email %></td>
+            <td class="px-4 py-3 text-sm text-gray-700">
+              <% if user.url.present? %>
+                <%= link_to user.url,
+                            user.url,
+                            class: "font-medium text-gray-900 underline underline-offset-4 hover:text-gray-700",
+                            target: "_blank",
+                            rel: "noopener noreferrer" %>
+              <% else %>
+                -
+              <% end %>
+            </td>
             <td class="px-4 py-3 text-sm">
               <% if user.confirmed? %>
                 <span class="inline-flex items-center rounded-full bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-200">
@@ -49,7 +61,7 @@
   </div>
 
   <p class="mt-4 text-xs text-gray-500">
-    Admin access is controlled by <code class="rounded bg-gray-100 px-1.5 py-0.5">ADMIN_EMAILS</code> env (comma-separated).
+    Admin access is controlled by credentials <code class="rounded bg-gray-100 px-1.5 py-0.5">admin.emails</code>.
   </p>
 </div>
 
