@@ -5,7 +5,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[8.1]
     create_table :users do |t|
       ## Database authenticatable
       t.string :email,              null: false, default: ""
-      t.string :encrypted_password, null: false, default: ""
+      # t.string :encrypted_password, null: false, default: ""
 
       ## Recoverable
       t.string   :reset_password_token
@@ -23,6 +23,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[8.1]
 
       t.string  :submitted_email, default: ""
       t.string  :name, default: ""
+      t.string  :provider, default: ""
+      t.string  :uid, default: ""
 
       ## Confirmable
       # t.string   :confirmation_token

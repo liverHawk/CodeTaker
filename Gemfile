@@ -56,6 +56,7 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem "pry-rails"
 end
 
 group :test do
@@ -70,3 +71,7 @@ gem "omniauth", "~> 2.1"
 gem "omniauth-github", "~> 2.0"
 
 gem "omniauth-rails_csrf_protection", "~> 2.0"
+
+gem "irb", "~> 1.17"
+
+gem "reline", "~> 0.6.3"

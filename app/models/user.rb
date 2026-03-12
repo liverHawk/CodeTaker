@@ -2,16 +2,34 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :trackable
+         :recoverable, :rememberable, :validatable, :trackable,
+         :omniauthable, omniauth_providers: %i[github]
 
   def self.from_omniauth(auth)
-    authorization = Authorization.find_or_initialize_by(provider: auth.provider, uid: auth.uid)
-    authorization.assign_attributes(name: auth.info.name, email: auth.info.email)
+    provider = auth.try(:provider) || auth[:provider] || auth["provider"]
+    uid = auth.try(:uid) || auth[:uid] || auth["uid"]
+    info = auth.try(:info) || auth[:info] || auth["info"] || {}
+    email = info.try(:email) || info[:email] || info["email"]
+    name = info.try(:name) || info[:name] || info["name"] || info.try(:nickname) || info[:nickname] || info["nickname"]
 
-    where(email: auth.info.email).first_or_initialize.tap do |user|
-      user.name = auth.info.name
-      user.email = auth.info.email
-      user.save!
+    if provider.present? && uid.present?
+      user = find_by(provider: provider, uid: uid)
+      return user if user
     end
+
+    user = email.present? ? find_by(email: email) : nil
+
+    if user
+      user.update!(provider: provider, uid: uid, name: user.name.presence || name)
+      return user
+    end
+
+    create!(
+      email: email.presence || "#{uid}@#{provider}.oauth.local",
+      password: Devise.friendly_token[0, 20],
+      provider: provider,
+      uid: uid,
+      name: name,
+    )
   end
 end

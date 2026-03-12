@@ -1,0 +1,13 @@
+<% if user_signed_in? %>
+  <div class="flex items-center gap-3">
+    <div class="text-sm text-gray-700">
+      Signed in as <span class="font-semibold"><%= current_user.email %></span>
+    </div>
+    <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "rounded bg-gray-900 px-3 py-1.5 text-white" %>
+  </div>
+<% else %>
+  <%= button_to "Sign in with GitHub",
+                user_github_omniauth_authorize_path,
+                data: { turbo: false },
+                class: "rounded bg-gray-900 px-3 py-2 text-white" %>
+<% end %>
