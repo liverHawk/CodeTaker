@@ -1,8 +1,20 @@
 <% if user_signed_in? %>
   <div class="flex items-center gap-3">
     <div class="text-sm text-gray-700">
-      Signed in as <span class="font-semibold"><%= current_user.email %></span>
+      Signed in as
+      <span class="font-semibold">
+        <%= current_user.name.presence || current_user.email %>
+      </span>
     </div>
+    <%= link_to "Edit name",
+                profile_path,
+                class: "rounded border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+    <% admin_emails = Array(Rails.application.credentials.dig(:admin, :emails)) %>
+    <% if admin_emails.include?(current_user.email) %>
+      <%= link_to "Admin",
+                  admin_users_path,
+                  class: "rounded border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+    <% end %>
     <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "rounded bg-gray-900 px-3 py-1.5 text-white" %>
   </div>
 <% else %>

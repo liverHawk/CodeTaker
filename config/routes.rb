@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
   get "home/index"
-  devise_for :users, controllers: {
-    :omniauth_callbacks => "users/github_callbacks"
-  }
+  devise_for :users,
+             skip: %i[registrations passwords],
+             controllers: {
+               omniauth_callbacks: "users/github_callbacks",
+               sessions: "users/sessions",
+             }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -17,4 +20,18 @@ Rails.application.routes.draw do
   # root "posts#index"
   # get "/", to: "login#index"
   root "home#index"
+
+  get "/invite_ids", to: "invite_ids#show", as: :invite_ids
+  post "/invite_ids", to: "invite_ids#create"
+
+  get "/profile", to: "profiles#edit", as: :profile
+  patch "/profile", to: "profiles#update"
+
+  namespace :admin do
+    resources :users, only: [:index] do
+      member do
+        patch :confirm
+      end
+    end
+  end
 end

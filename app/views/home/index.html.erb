@@ -1,9 +1,27 @@
-<div>
-  <h1 class="font-bold text-4xl">Home#index</h1>
-  <p>Find me in app/views/home/index.html.erb</p>
+<div class="mx-auto w-full max-w-3xl px-4 py-10">
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight text-gray-900">Code Taker</h1>
+      <p class="mt-1 text-sm text-gray-600">Sign in and reveal your invite ID (one-time).</p>
+    </div>
+    <div class="shrink-0">
+      <%= render "shared/links" %>
+    </div>
+  </div>
 
-  <h1>Hello, World!</h1>
-  <%= render 'shared/links' %>
-
-  <%= button_to "Redeem invite id", invite_ids_path, class: "rounded bg-gray-900 px-3 py-2 text-white", data: { turbo: false } %>
+  <div class="mt-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <div class="text-sm font-medium text-gray-900">Invite ID</div>
+        <div class="mt-1 text-sm text-gray-600">
+          Reveal your invite ID on the next page. If you already redeemed it, you'll see the used status.
+        </div>
+      </div>
+      <div class="shrink-0">
+        <%= link_to "Open invite page",
+                    invite_ids_path,
+                    class: "inline-flex items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2" %>
+      </div>
+    </div>
+  </div>
 </div>
